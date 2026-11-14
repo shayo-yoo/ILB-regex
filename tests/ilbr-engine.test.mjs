@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createIlbmMarkerRule, createIlbrService, inspectRegexRule, processText } from '../lib/ilbr-engine.js';
+import { createLiteralRemovalRule, createIlbrService, inspectRegexRule, processText } from '../lib/ilbr-engine.js';
 
 test('pure replacement returns original, output, match positions and captures', () => {
-  const result = processText('a (((ILBM))) b', [createIlbmMarkerRule()]);
+  const result = processText('a (((ILBM))) b', [createLiteralRemovalRule({ marker: '(((ILBM)))' })]);
   assert.equal(result.ok, true);
   assert.equal(result.original, 'a (((ILBM))) b');
   assert.equal(result.text, 'a  b');
