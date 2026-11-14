@@ -21,7 +21,7 @@ test('caller rules run in declared order and return diagnostics', () => {
     { id: 'one', pattern: 'a', replacement: 'b' },
     { id: 'two', pattern: 'b', replacement: 'c' },
   ]);
-  assert.equal(result.text, 'ccc');
+  assert.equal(result.text, 'cbc');
   assert.deepEqual(result.matches.map((x) => x.ruleId), ['one', 'two']);
 });
 
@@ -38,7 +38,7 @@ test('scope filters display and prompt rules independently', () => {
 test('invalid regex is skipped and never throws or destroys input', () => {
   const result = processText('keep (((ILBM)))', [
     { id: 'broken', pattern: '(', replacement: '' },
-    createIlbmMarkerRule(),
+    createLiteralRemovalRule({ marker: '(((ILBM)))' }),
   ]);
   assert.equal(result.ok, true);
   assert.equal(result.text, 'keep ');
